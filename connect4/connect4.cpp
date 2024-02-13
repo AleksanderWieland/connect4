@@ -102,7 +102,7 @@ int main()
                 int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
                 if (newGameArray[row][convertedColumn] != '_')
                 {
-                    std::cout << (convertedColumn) << "\n";
+                    //std::cout << (convertedColumn) << "\n";
                     if (lastFoundToken != newGameArray[row][convertedColumn])
                     {
                         
@@ -115,11 +115,14 @@ int main()
                     }
                     if (numberOfConnectedTokens == 4)
                     {
-                        std::cout << "Wygral zawodnik uzywajacy zetonów " << lastFoundToken << " !";
+                      //  std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
                         system("pause");
                         return 0;
 
                     }
+                }
+                else {
+                    numberOfConnectedTokens = 1;
                 }
             }
         }
@@ -141,21 +144,70 @@ int main()
 
                         numberOfConnectedTokens = 1;
                         lastFoundToken = newGameArray[row][convertedColumn];
-                        std::cout << lastFoundToken << " inny" << "\n";
+                     //   std::cout << lastFoundToken << " inny" << "\n";
                     }
                     else
                     {
                         numberOfConnectedTokens++;
-                        std::cout << numberOfConnectedTokens << "\n";
-                        std::cout << lastFoundToken << " ten sam" << "\n";
+                     //   std::cout << numberOfConnectedTokens << "\n";
+                      //  std::cout << lastFoundToken << " ten sam" << "\n";
                     }
                     if (numberOfConnectedTokens == 4)
                     {
-                        std::cout << "Wygral zawodnik uzywajacy zetonów " << lastFoundToken << " !";
+                      //  std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
                         system("pause");
                         return 0;
                     }
                 }
+                else {
+                    numberOfConnectedTokens = 1;
+                }
+            }
+        }
+
+        for (int column = 1; column <= 4; column++)
+        {
+            int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
+            //aby nie brało pod uwagę żetonów w dwóch kolejnych kolumnach
+            char lastFoundToken = '!';
+            int numberOfConnectedTokens = 1;
+            int iterator = 0;
+
+            for (int row = 2; row <= 5; row++)
+            {
+                while((row + iterator) <= 5 && (convertedColumn + iterator) <= 7)
+                {
+                   // std::cout << row - iterator;
+                    int newRow = row + iterator;
+                    int newColumn = convertedColumn + iterator * 3;
+                    if (newGameArray[newRow][newColumn] != '_')
+                    {
+                        if (lastFoundToken != newGameArray[newRow][newColumn])
+                        {
+
+                            numberOfConnectedTokens = 1;
+                            lastFoundToken = newGameArray[newRow][newColumn];
+                          //  std::cout << lastFoundToken << " inny" << "\n";
+                        }
+                        else
+                        {
+                            numberOfConnectedTokens++;
+                           // std::cout << numberOfConnectedTokens << "\n";
+                           // std::cout << lastFoundToken << " ten sam" << "\n";
+                        }
+                        if (numberOfConnectedTokens == 4)
+                        {
+                         //   std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
+                            system("pause");
+                            return 0;
+                        }
+                    }
+                    else {
+                        numberOfConnectedTokens = 1;
+                    }
+                   iterator++;
+                }
+                iterator = 1;
             }
         }
 
