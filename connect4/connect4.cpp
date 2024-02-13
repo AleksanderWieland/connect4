@@ -4,7 +4,7 @@
 #include <iostream>
 #include<array>
 
-static std::array<std::array<char, 21>, 6> gameArray()
+static std::array<std::array<char, 21>, 6> createGameArray()
 {
     std::array<std::array<char, 21>, 6> table;
     for (int row = 0; row <= 5; row++)
@@ -15,7 +15,7 @@ static std::array<std::array<char, 21>, 6> gameArray()
                 table[row][column] = '[';
             }
             else if ((column - 1) % 3 == 0) {
-                table[row][column] = ' ';
+                table[row][column] = '_';
             }
             else if ((column + 1) % 3 == 0) {
                 table[row][column] = ']';
@@ -40,28 +40,126 @@ void showGameArray(std::array<std::array<char, 21>, 6> inputArray)
     }
 }
 
+int convertInputTokenPositionIntoPositionInGameArray(int tokenPositionInput)
+{
+    if (tokenPositionInput == 1)
+    {
+        return 1;
+    }
+    else
+    return (tokenPositionInput - 1) * 2 + tokenPositionInput;
+}
+
+static std::array<std::array<char, 21>, 6> returnGameArrayWithTokenAdded(std::array<std::array<char, 21>, 6> inputArray, int tokenPosition, int numberOfTurns)
+{
+    std::array<std::array<char, 21>, 6> table;
+    table = inputArray;
+    for (int row = 5; row >= 0; row--)
+    {
+        if (table[row][tokenPosition] == '_')
+        {
+            if (numberOfTurns % 2 == 0) {
+                table[row][tokenPosition] = 'O';
+            }
+            else
+            {
+                table[row][tokenPosition] = 'X';
+            }
+            break;
+        }
+    }
+    return table;
+}
+
+
 int main()
 {
     std::cout << "Program - gra Connect Four\n";
 
     std::array<std::array<char, 21>, 6> newGameArray;
-    newGameArray = gameArray();
+    newGameArray = createGameArray();
     showGameArray(newGameArray);
-    std::cout << "Wybierz pozycje, w ktorej chesz wrzucic zeton (od 1 do 7)\n";
+    int numberOfTurns = 0;
     int tokenPosition;
-    std::cin >> tokenPosition;
+
+    while (1)
+    {
+        std::cout << "Wybierz pozycje, w ktorej chesz wrzucic zeton (od 1 do 7)\n";
+        std::cin >> tokenPosition;
+        tokenPosition = convertInputTokenPositionIntoPositionInGameArray(tokenPosition);
+        newGameArray = returnGameArrayWithTokenAdded(newGameArray, tokenPosition, numberOfTurns);
+        showGameArray(newGameArray);
+        numberOfTurns++;
+
+        for (int row = 0; row <= 5; row++)
+        {
+            //aby nie brało pod uwagę żetonów w dwóch kolejnych rzędach
+            char lastFoundToken = '!';
+            int numberOfConnectedTokens = 1;
+
+            for (int column = 1; column <= 7; column++)
+            {
+                int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
+                if (newGameArray[row][convertedColumn] != '_')
+                {
+                    std::cout << (convertedColumn) << "\n";
+                    if (lastFoundToken != newGameArray[row][convertedColumn])
+                    {
+                        
+                        numberOfConnectedTokens = 1;
+                        lastFoundToken = newGameArray[row][convertedColumn];
+                    }
+                    else
+                    {
+                        numberOfConnectedTokens++;
+                    }
+                    if (numberOfConnectedTokens == 4)
+                    {
+                        std::cout << "Wygral zawodnik uzywajacy zetonów " << lastFoundToken << " !";
+                        system("pause");
+                        return 0;
+
+                    }
+                }
+            }
+        }
 
 
+        for (int column = 1; column <= 7; column++)
+        {
+            int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
+            //aby nie brało pod uwagę żetonów w dwóch kolejnych kolumnach
+            char lastFoundToken = '!';
+            int numberOfConnectedTokens = 1;
+
+            for (int row = 0; row <= 5; row++)
+            {
+                if (newGameArray[row][convertedColumn] != '_')
+                {
+                    if (lastFoundToken != newGameArray[row][convertedColumn])
+                    {
+
+                        numberOfConnectedTokens = 1;
+                        lastFoundToken = newGameArray[row][convertedColumn];
+                        std::cout << lastFoundToken << " inny" << "\n";
+                    }
+                    else
+                    {
+                        numberOfConnectedTokens++;
+                        std::cout << numberOfConnectedTokens << "\n";
+                        std::cout << lastFoundToken << " ten sam" << "\n";
+                    }
+                    if (numberOfConnectedTokens == 4)
+                    {
+                        std::cout << "Wygral zawodnik uzywajacy zetonów " << lastFoundToken << " !";
+                        system("pause");
+                        return 0;
+                    }
+                }
+            }
+        }
+
+    }
+    system("pause");
     return 0;
 }
-
-// Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
-// Debugowanie programu: F5 lub menu Debugowanie > Rozpocznij debugowanie
-
-// Porady dotyczące rozpoczynania pracy:
-//   1. Użyj okna Eksploratora rozwiązań, aby dodać pliki i zarządzać nimi
-//   2. Użyj okna programu Team Explorer, aby nawiązać połączenie z kontrolą źródła
-//   3. Użyj okna Dane wyjściowe, aby sprawdzić dane wyjściowe kompilacji i inne komunikaty
-//   4. Użyj okna Lista błędów, aby zobaczyć błędy
-//   5. Wybierz pozycję Projekt > Dodaj nowy element, aby utworzyć nowe pliki kodu, lub wybierz pozycję Projekt > Dodaj istniejący element, aby dodać istniejące pliku kodu do projektu
-//   6. Aby w przyszłości ponownie otworzyć ten projekt, przejdź do pozycji Plik > Otwórz > Projekt i wybierz plik sln
