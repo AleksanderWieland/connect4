@@ -175,10 +175,10 @@ int main()
             numberOfConnectedTokens = 0;
         }
         
-
-        int xArrayDimentionLength = 5;
+        //ukos górna część ->[/]
+        int yArrayDimentionLength = 5;
         lastFoundToken = '_';
-        for (int row = 3; row <= xArrayDimentionLength; row++)
+        for (int row = 3; row <= yArrayDimentionLength; row++)
         {
             int iterator = 0;
             for (int column = 1; column <= row + 1; column++)
@@ -213,13 +213,55 @@ int main()
                 iterator++;
             }
             std::cout << std::endl;
-
         }
         
 
 
+        //ukos dolna część [/]<-
+        yArrayDimentionLength = 5;
+        int xArrayDimentionLength = 7;
+        lastFoundToken = '_';
+ 
+            for (int column = xArrayDimentionLength - 3; column > 1; column--)
+            {
+                int iterator = 0;
+                for (int row = yArrayDimentionLength; row >= column - 2; row--)
+                {
 
+                    convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column + iterator);
+                    std::cout << "(" << row << ", " << convertedColumn << "), ";
+                    if (newGameArray[row][convertedColumn] != '_')
+                    {
+                        if (newGameArray[row][convertedColumn] == lastFoundToken)
+                        {
+                            numberOfConnectedTokens++;
+                        }
+                        else
+                        {
+                            numberOfConnectedTokens = 1;
+                            lastFoundToken = newGameArray[row][convertedColumn];
+                        }
+
+                    }
+                    else
+                    {
+                        numberOfConnectedTokens = 0;
+                    }
+
+                    if (numberOfConnectedTokens == 4)
+                    {
+                        std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
+                        system("pause");
+                        return 0;
+                    }
+                    iterator++;
+                }
+                std::cout << std::endl;
+            }
+
+        }
+
+        system("pause");
+        return 0;
     }
-    system("pause");
-    return 0;
-}
+
