@@ -132,12 +132,16 @@ int main()
         }
 
         //pionowo
+        int convertedColumn;
+        //aby nie brało pod uwagę żetonów w dwóch kolejnych kolumnach
+        char lastFoundToken = '!';
+        int numberOfConnectedTokens = 1;
         for (int column = 1; column <= 7; column++)
         {
-            int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
+            convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
             //aby nie brało pod uwagę żetonów w dwóch kolejnych kolumnach
-            char lastFoundToken = '!';
-            int numberOfConnectedTokens = 1;
+            lastFoundToken = '!';
+            numberOfConnectedTokens = 1;
 
             for (int row = 0; row <= 5; row++)
             {
@@ -171,93 +175,47 @@ int main()
             numberOfConnectedTokens = 0;
         }
         
-        //przekątna lewo góra prawo dół
-        for (int column = 1; column <= 5; column++)
+
+        int xArrayDimentionLength = 5;
+        lastFoundToken = '_';
+        for (int row = 3; row <= xArrayDimentionLength; row++)
         {
-            int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
-            //aby nie brało pod uwagę żetonów w dwóch kolejnych kolumnach
-            char lastFoundToken = '!';
-            int numberOfConnectedTokens = 0;
             int iterator = 0;
-
-            for (int row = 2; row >= 0; row--)
+            for (int column = 1; column <= row + 1; column++)
             {
-                while((row + iterator) <= 5 && (column + iterator) <= 7)
+                convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
+                int iteratedRow = row - iterator;
+                std::cout << "(" << iteratedRow << ", " << convertedColumn << "), ";
+                if (newGameArray[iteratedRow][convertedColumn] != '_')
                 {
-                    int newRow = row + iterator;
-                    int newColumn = convertedColumn + iterator * 3;
-                    if (newGameArray[newRow][newColumn] != '_')
+                    if (newGameArray[iteratedRow][convertedColumn] == lastFoundToken)
                     {
-                        if (lastFoundToken != newGameArray[newRow][newColumn])
-                        {
-
-                            numberOfConnectedTokens = 1;
-                            lastFoundToken = newGameArray[newRow][newColumn];
-                        }
-                        else
-                        {
-                            numberOfConnectedTokens++;
-                        }
-                        if (numberOfConnectedTokens == 4)
-                        {
-                            std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
-                            system("pause");
-                            return 0;
-                        }
+                        numberOfConnectedTokens++;
                     }
-                    else {
-                        numberOfConnectedTokens = 0;
+                    else
+                    {
+                        numberOfConnectedTokens = 1;
+                        lastFoundToken = newGameArray[iteratedRow][convertedColumn];
                     }
-                   iterator++;
+                    
                 }
-                numberOfConnectedTokens = 0;
-                iterator = 0;
-            }
-        }
-
-        //przekątna lewo dół prawo góra
-        for (int column = 1; column <= 5; column++)
-        {
-            int convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
-            //aby nie brało pod uwagę żetonów w dwóch kolejnych kolumnach
-            char lastFoundToken = '!';
-            int numberOfConnectedTokens = 0;
-            int iterator = 0;
-
-            for (int row = 2; row >= 0; row--)
-            {
-                while ((row + iterator) <= 5 && (column + iterator) <= 7)
+                else
                 {
-                    int newRow = row + iterator;
-                    int newColumn = convertedColumn + iterator * 3;
-                    if (newGameArray[newRow][newColumn] != '_')
-                    {
-                        if (lastFoundToken != newGameArray[newRow][newColumn])
-                        {
-
-                            numberOfConnectedTokens = 1;
-                            lastFoundToken = newGameArray[newRow][newColumn];
-                        }
-                        else
-                        {
-                            numberOfConnectedTokens++;
-                        }
-                        if (numberOfConnectedTokens == 4)
-                        {
-                            std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
-                            system("pause");
-                            return 0;
-                        }
-                    }
-                    else {
-                        numberOfConnectedTokens = 0;
-                    }
-                    iterator++;
+                    numberOfConnectedTokens = 0;
                 }
-                numberOfConnectedTokens = 0;
-                iterator = 0;
+
+                if (numberOfConnectedTokens == 4)
+                {
+                    std::cout << "Wygral zawodnik uzywajacy zetonow " << lastFoundToken << " !";
+                    system("pause");
+                    return 0;
+                }
+                iterator++;
             }
+            std::cout << std::endl;
+
         }
+        
 
 
 
