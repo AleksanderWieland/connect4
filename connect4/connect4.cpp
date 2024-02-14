@@ -220,6 +220,7 @@ int main()
                 }
                 iterator++;
             }
+            numberOfConnectedTokens = 0;
             std::cout << std::endl;
         }
 
@@ -261,6 +262,7 @@ int main()
                 }
                 iterator++;
             }
+            numberOfConnectedTokens = 0;
             std::cout << std::endl;
         }
 
