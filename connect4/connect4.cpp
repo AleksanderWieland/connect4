@@ -30,14 +30,17 @@ static std::array<std::array<char, 21>, 6> createGameArray()
 
 void showGameArray(std::array<std::array<char, 21>, 6> inputArray)
 {
+    //hardcoded - to change
+    std::cout << std::endl <<" 1  2  3  4  5  6  7" << std::endl;
     for (int row = 0; row <= 5; row++)
     {
         for (int column = 0; column <= 20; column++)
         {
             std::cout << inputArray[row][column];
         }
-        std::cout << "\n";
+        std::cout << std::endl;
     }
+    std::cout << std::endl << std::endl;
 }
 
 int convertInputTokenPositionIntoPositionInGameArray(int tokenPositionInput)
@@ -102,9 +105,9 @@ int main()
     int yArrayDimentionLength = 5;
     int xArrayDimentionLength = 7;
 
-    for (int maxPossibleTurns = (yArrayDimentionLength * xArrayDimentionLength); maxPossibleTurns >= 0; maxPossibleTurns--)
+    for (int maxPossibleTurns = ((yArrayDimentionLength + 1) * xArrayDimentionLength); maxPossibleTurns >= 0; maxPossibleTurns--)
     {
-        std::cout << "Wybierz pozycje, w ktorej chesz wrzucic zeton (od 1 do 7)\n";
+        std::cout << "Wybierz pozycje, w ktorej chesz wrzucic zeton (od 1 do 7): ";
         tokenPosition = getInput(xArrayDimentionLength);
         tokenPosition = convertInputTokenPositionIntoPositionInGameArray(tokenPosition);
         newGameArray = returnGameArrayWithTokenAdded(newGameArray, tokenPosition, numberOfTurns);
@@ -194,7 +197,7 @@ int main()
             {
                 convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
                 int iteratedRow = row - iterator;
-                std::cout << "(" << iteratedRow << ", " << convertedColumn << "), ";
+                //std::cout << "(" << iteratedRow << ", " << convertedColumn << "), ";
                 if (newGameArray[iteratedRow][convertedColumn] != '_')
                 {
                     if (newGameArray[iteratedRow][convertedColumn] == lastFoundToken)
@@ -221,7 +224,7 @@ int main()
                 iterator++;
             }
             numberOfConnectedTokens = 0;
-            std::cout << std::endl;
+            //std::cout << std::endl;
         }
 
 
@@ -236,7 +239,7 @@ int main()
             {
 
                 convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column + iterator);
-                std::cout << "(" << row << ", " << convertedColumn << "), ";
+                //std::cout << "(" << row << ", " << convertedColumn << "), ";
                 if (newGameArray[row][convertedColumn] != '_')
                 {
                     if (newGameArray[row][convertedColumn] == lastFoundToken)
@@ -263,7 +266,7 @@ int main()
                 iterator++;
             }
             numberOfConnectedTokens = 0;
-            std::cout << std::endl;
+            //std::cout << std::endl;
         }
 
 
@@ -279,7 +282,7 @@ int main()
             {
                 convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column);
                 int iteratedRow = row + iterator;
-                std::cout << "(" << iteratedRow << ", " << convertedColumn << "), ";
+                //std::cout << "(" << iteratedRow << ", " << convertedColumn << "), ";
                 if (newGameArray[iteratedRow][convertedColumn] != '_')
                 {
                     if (newGameArray[iteratedRow][convertedColumn] == lastFoundToken)
@@ -306,7 +309,7 @@ int main()
                 iterator++;
             }
             numberOfConnectedTokens = 0;
-            std::cout << std::endl;
+            //std::cout << std::endl;
         }
 
 
@@ -323,7 +326,7 @@ int main()
             {
 
                 convertedColumn = convertInputTokenPositionIntoPositionInGameArray(column + iterator);
-                std::cout << "(" << row << ", " << convertedColumn << "), ";
+                //std::cout << "(" << row << ", " << convertedColumn << "), ";
                 if (newGameArray[row][convertedColumn] != '_')
                 {
                     if (newGameArray[row][convertedColumn] == lastFoundToken)
@@ -350,7 +353,7 @@ int main()
                 iterator++;
             }
             numberOfConnectedTokens = 0;
-            std::cout << std::endl;
+            //std::cout << std::endl;
         }
 
 
